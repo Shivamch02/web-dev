@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const client = new PrismaClient();
+import client from "@/db";
 
 const fetchData = async () => {
   const user = await client.user.findFirst();
