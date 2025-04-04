@@ -27,7 +27,6 @@ router.get("/:conferenceId", async (req, res) => {
   const feedbacks = await Feedback.find({ conferenceId: conferenceId });
   console.log(feedbacks);
   res.json(feedbacks);
-}); 
-
+});
 
 module.exports = router;
