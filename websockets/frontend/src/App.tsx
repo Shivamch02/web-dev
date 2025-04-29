@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-function App() {
+function useSocket() {
   const [socket, setSocket] = useState<null | WebSocket>(null);
-  const [latestMessage, setLatestMessage] = useState("");
-  const [message, setMessage] = useState("");
-
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080");
     socket.onopen = () => {
       console.log("Connected");
       setSocket(socket);
     };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
+  return socket;
+}
+
+function App() {
+  const socket = useSocket();
+  const [latestMessage, setLatestMessage] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
     socket.onmessage = (message) => {
       setLatestMessage(message.data);
       console.log("Recieved: ", message.data);
